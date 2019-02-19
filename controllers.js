@@ -1,27 +1,22 @@
 // CONTROLLERS
-todoApp.controller('homeController', ['$scope', 'cityService', function($scope, cityService) {
-    
+todoApp.controller('homeController', ['$scope', 'cityService', function($scope, cityService) {    
     $scope.todo = cityService.todo;
     $scope.$watch('todo', function() {
        cityService.todo = $scope.todo;
-    });
-    
+    });    
 }]);
 
-todoApp.controller('createController', ['$scope', '$http', '$routeParams', 'cityService', function($scope, $http, $routeParams, cityService) {
-    
+todoApp.controller('createController', ['$scope', '$http', '$routeParams', 'cityService', function($scope, $http, $routeParams, cityService) {    
     $scope.todo = cityService.todo;
     var url = "http://localhost:3000/api/to_dos";
     var data = { "to_do" : { "name" : $scope.todo.name, "description" : $scope.todo.description, "status" : $scope.todo.status, "tag_id" : $scope.todo.tag_id, "is_deleted" : $scope.todo.is_deleted}};
     $http.post(url, data).then(function(){
-    });
-    
+    });    
 }]);
 
 todoApp.controller('indexController', ['$scope', '$http', '$routeParams', 'cityService', function($scope, $http, $routeParams, cityService) {
    $scope.statuses = ['start', 'not_start', 'finish'];
-   $scope.tagName = '';
-   
+   $scope.tagName = '';   
    $scope.loadTodos = function() {
         var url_1 = "http://localhost:3000/api/tags/todos?tag_name=" + $scope.tagName;
         var url = ($scope.tagName.length === 0) ? "http://localhost:3000/api/to_dos" : url_1;
@@ -29,12 +24,8 @@ todoApp.controller('indexController', ['$scope', '$http', '$routeParams', 'cityS
          .then(function(response){
          $scope.todos = response.data;
        });              
-    }
-    
-    $scope.loadTodos();
-    
-    
-        
+    }    
+   $scope.loadTodos();        
    $scope.updateStatus = function(id, status){
         var url = "http://localhost:3000/api/to_dos/" + id + "/status";
         var data = { "status" : status };
@@ -50,7 +41,6 @@ todoApp.controller('deleteController', ['$scope', '$http', '$routeParams', 'city
    $scope.todo = $routeParams.id;
    $http.delete("http://localhost:3000/api/to_dos/" + $routeParams.id)
    .then(function(response){
-     console.log(response);
    })
 }]);
 
@@ -59,7 +49,6 @@ todoApp.controller('undoDeleteController', ['$scope', '$http', '$routeParams', f
    var data = {};
    $http.put("http://localhost:3000/api/to_dos/" + $routeParams.id + "/is_deleted", data)
    .then(function(response){
-     console.log(response);
    })
 }]);
 

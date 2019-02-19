@@ -1,8 +1,7 @@
-<label>
-    Filter ToDos by Tag name:
-    <input type="text" ng-model="tagName"  class="form-control" />
-    <button  class="btn btn-primary" title="Apply Filter" ng-click="loadTodos()"><i class="glyphicon glyphicon-refresh"></i></button>
-</label>
+<div>
+<input type="text" ng-model="tagName" placeholder="Filter by Tag Name"/>
+        <button class="btn btn-primary" title="Apply Filter" ng-click="loadTodos()"><i class="glyphicon glyphicon-filter"></i></button>
+</div>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -20,22 +19,20 @@
       <th scope="row">{{current + $index}}</th>
       <td>{{ todo.name }}</td>
       <td>{{ todo.description }}</td>
-<!--      <td>{{ todo.status }}</td>-->
       <td><select ng-model="todo.status" ng-options="status as status for status in statuses" ng-change="updateStatus(todo._id.$oid, todo.status);">
 </select></td>
       <td>{{ todo.tag_id }}</td>
-      <td>{{ todo.is_deleted }}</td>
-      <td><a href="#/delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Delete ToDO"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td>{{ todo.is_deleted }}</td>      
       <td><a href="#/edit/{{ todo }}" class="btn btn-primary" title="Edit ToDo"><span class="glyphicon glyphicon-pencil"></span></a></td>
       <td>
         <a href="#/attach_tag/{{ todo._id.$oid }}" title="Attach Tag">
           <span class="glyphicon glyphicon-tag"></span>
         </a>
-      </td>
-      <td><a href="#/undo_delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Undo Delete ToDO"><i class="glyphicon glyphicon-refresh"></i></a></td>
-        
-        
-        
+      </td>      
+      <td>
+          <a ng-show="!todo.is_deleted" href="#/delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Delete ToDO"><span class="glyphicon glyphicon-trash"></span></a>
+          <a ng-show="todo.is_deleted" href="#/undo_delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Undo Delete ToDO"><i class="glyphicon glyphicon-refresh"></i></a>
+      </td>        
     </tr>
   </tbody>
 </table>
