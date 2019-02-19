@@ -10,3 +10,8 @@ todoApp.service('updateService', function() {
     this.todo = "";
     
 });
+
+todoApp.service('attachTagService', function() {
+    this.tag = "";
+    
+});

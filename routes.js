@@ -32,4 +32,19 @@ todoApp.config(function ($routeProvider) {
         templateUrl: 'pages/update.htm',
         controller: 'updateController'
     })
+    
+    .when('/attach_tag/:id', {
+        templateUrl: 'pages/attach_tag.htm',
+        controller: 'attachTagController'
+    })
+    
+    .when('/update_tag/:id', {
+        templateUrl: 'pages/update_tag.htm',
+        controller: 'updateTagController'
+    })
+    
+    .when('/undo_delete/:id', {
+        templateUrl: 'pages/undo_delete.htm',
+        controller: 'undoDeleteController'
+    })
 });

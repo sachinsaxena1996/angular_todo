@@ -20,11 +20,21 @@ todoApp.controller('createController', ['$scope', '$http', '$routeParams', 'city
 
 todoApp.controller('indexController', ['$scope', '$http', '$routeParams', 'cityService', function($scope, $http, $routeParams, cityService) {
    $scope.statuses = ['start', 'not_start', 'finish'];
-   $http.get("http://localhost:3000/api/to_dos")
-   .then(function(response){
-     $scope.todos = response.data;
-   })
+   $scope.tagName = '';
+   
+   $scope.loadTodos = function() {
+        var url_1 = "http://localhost:3000/api/tags/todos?tag_name=" + $scope.tagName;
+        var url = ($scope.tagName.length === 0) ? "http://localhost:3000/api/to_dos" : url_1;
+        $http.get(url)
+         .then(function(response){
+         $scope.todos = response.data;
+       });              
+    }
     
+    $scope.loadTodos();
+    
+    
+        
    $scope.updateStatus = function(id, status){
         var url = "http://localhost:3000/api/to_dos/" + id + "/status";
         var data = { "status" : status };
@@ -37,7 +47,17 @@ todoApp.controller('indexController', ['$scope', '$http', '$routeParams', 'cityS
 
 
 todoApp.controller('deleteController', ['$scope', '$http', '$routeParams', 'cityService', function($scope, $http, $routeParams, cityService) {
+   $scope.todo = $routeParams.id;
    $http.delete("http://localhost:3000/api/to_dos/" + $routeParams.id)
+   .then(function(response){
+     console.log(response);
+   })
+}]);
+
+todoApp.controller('undoDeleteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+   $scope.todo = $routeParams.id;
+   var data = {};
+   $http.put("http://localhost:3000/api/to_dos/" + $routeParams.id + "/is_deleted", data)
    .then(function(response){
      console.log(response);
    })
@@ -61,3 +81,24 @@ todoApp.controller('updateController', ['$scope', '$http', '$routeParams', 'upda
         
     });
 }]);
+
+todoApp.controller('attachTagController', ['$scope', '$http', '$routeParams', 'attachTagService', function($scope, $http, $routeParams, attachTagService) {
+    $scope.tag = attachTagService.tag;
+    $scope.todo_id = $routeParams.id;
+    $scope.$watch('tag', function() {
+       attachTagService.tag = $scope.tag; 
+    });
+}]);
+
+todoApp.controller('updateTagController', ['$scope', '$http', '$routeParams', 'attachTagService', function($scope, $http, $routeParams, attachTagService) {
+    $scope.tag = attachTagService.tag;
+    $scope.todo_id = $routeParams.id;
+    var url = "http://localhost:3000/api/to_dos/" + $routeParams.id + "/attach_tag";
+    var data = {"tag": { "name" : $scope.tag.name }};
+    console.log(data);
+    $http.put(url, data).then(function(){
+        alert("Tag attached successfully for the todo with id: " + $routeParams.id);
+        attachTagService.tag = "";
+    });
+}]);
+

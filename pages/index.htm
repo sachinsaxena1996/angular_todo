@@ -1,3 +1,8 @@
+<label>
+    Filter ToDos by Tag name:
+    <input type="text" ng-model="tagName"  class="form-control" />
+    <button  class="btn btn-primary" title="Apply Filter" ng-click="loadTodos()"><i class="glyphicon glyphicon-refresh"></i></button>
+</label>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -20,8 +25,17 @@
 </select></td>
       <td>{{ todo.tag_id }}</td>
       <td>{{ todo.is_deleted }}</td>
-      <td><a href="#/delete/{{ todo._id.$oid }}" class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span></a></td>
-      <td><a href="#/edit/{{ todo }}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a></td>
+      <td><a href="#/delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Delete ToDO"><span class="glyphicon glyphicon-trash"></span></a></td>
+      <td><a href="#/edit/{{ todo }}" class="btn btn-primary" title="Edit ToDo"><span class="glyphicon glyphicon-pencil"></span></a></td>
+      <td>
+        <a href="#/attach_tag/{{ todo._id.$oid }}" title="Attach Tag">
+          <span class="glyphicon glyphicon-tag"></span>
+        </a>
+      </td>
+      <td><a href="#/undo_delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Undo Delete ToDO"><i class="glyphicon glyphicon-refresh"></i></a></td>
+        
+        
+        
     </tr>
   </tbody>
 </table>
