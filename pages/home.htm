@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h4>Create a Todo</h4>
+        <div class="form-group">
+            
+            <label>
+                Name:
+                <input type="text" ng-model="todo.name" class="form-control" />
+            </label>
+            
+            <label>
+                Description:
+                <input type="text" ng-model="todo.description" class="form-control" />
+            </label>
+
+            <label>
+                Status:
+                <input type="text" ng-model="todo.status" class="form-control" />
+            </label>
+            <br/>
+            <label>
+                Tag Id:
+                <input type="text" ng-model="todo.tag_id" class="form-control" />
+            </label>
+            <br/><br/>
+            <label>
+                Is Deleted:
+<!--                <input type="text" ng-model="todo.is_deleted" class="form-control" />-->
+                <input type="radio" ng-model="todo.is_deleted" value="true">  true
+                <input type="radio" ng-model="todo.is_deleted" ng-value="false"> false
+            </label>
+        </div>
+        <a href="#/create" class="btn btn-primary">Create Todo</a>
+    </div>
+</div>
