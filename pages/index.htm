@@ -30,8 +30,8 @@
         </a>
       </td>      
       <td>
-          <a ng-show="!todo.is_deleted" href="#/delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Delete ToDO"><span class="glyphicon glyphicon-trash"></span></a>
-          <a ng-show="todo.is_deleted" href="#/undo_delete/{{ todo._id.$oid }}" class="btn btn-primary" title="Undo Delete ToDO"><i class="glyphicon glyphicon-refresh"></i></a>
+          <a ng-show="!todo.is_deleted" ng-click="deleteTodo(todo)" class="btn btn-primary" title="Delete ToDO"><span class="glyphicon glyphicon-trash"></span></a>
+          <a ng-show="todo.is_deleted" ng-click="deleteTodo(todo)" class="btn btn-primary" title="Undo Delete ToDO"><i class="glyphicon glyphicon-refresh"></i></a>
       </td>        
     </tr>
   </tbody>

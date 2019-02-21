@@ -1,0 +1,24 @@
+{
+  "name": "angular_todo",
+  "version": "1.0.0",
+  "description": "angular todo",
+  "main": "pages/home.htm",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sachinsaxena1996/angular_todo.git"
+  },
+  "author": "sachin saxena",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sachinsaxena1996/angular_todo/issues"
+  },
+  "homepage": "https://github.com/sachinsaxena1996/angular_todo#readme",
+  "devDependencies": {
+    "karma": "^4.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^2.0.1"
+  }
+}
