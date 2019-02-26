@@ -1,3 +1,3 @@
 // MODULE
-var todoApp = angular.module('todoApp', ['ngRoute', 'ngResource']);
+var todoApp = angular.module('todoApp', ['ngRoute']);
 

@@ -1,13 +1,17 @@
 todoApp.controller('indexToDoController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
    $scope.statuses = ['start', 'not_start', 'finish'];
-   $scope.tagName = '';   
+   $scope.tagName = '';
    $scope.loadTodos = function() {
+        $scope.status = 'indexing...';
         var url_1 = "http://localhost:3000/api/tags/todos?tag_name=" + $scope.tagName;
         var url = ($scope.tagName.length === 0) ? "http://localhost:3000/api/to_dos" : url_1;
         $http.get(url)
          .then(function(response){
          $scope.todos = response.data;
-       });              
+         $scope.status = '';
+       }).catch(function() {
+         $scope.status = 'Failed...';
+       });            
     }    
    $scope.loadTodos();        
    $scope.updateStatus = function(id, status){
