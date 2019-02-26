@@ -1,9 +1,6 @@
 describe('indexToDoController', function() {
    var $httpBackend, $rootScope, indexController;
-
-   // Set up the module
    beforeEach(module('todoApp'));
-
    beforeEach(inject(function($injector) {
      // Set up the mock http service responses
     $httpBackend = $injector.get('$httpBackend');           
@@ -12,18 +9,19 @@ describe('indexToDoController', function() {
        
     $httpBackend.when('GET', 'http://localhost:3000/api/to_dos').respond(201, '');
     $httpBackend.when('GET', 'http://localhost:3000/api/tags/todos?tag_name=Rails').respond(201, '');
-     // backend definition common for all tests
-     
-
-     // Get hold of a scope (i.e. the root scope)
-     $rootScope = $injector.get('$rootScope');
-     // The $controller service is used to create instances of controllers
-     var $controller = $injector.get('$controller');
+    $httpBackend.when('DELETE', "http://localhost:3000/api/to_dos/22").respond(201, '');
+    $httpBackend.when('PUT', "http://localhost:3000/api/to_dos/22/is_deleted").respond(201, '');
+       
+    updateStatusRequestHandler = $httpBackend.when('PUT', 'http://localhost:3000/api/to_dos/22/status').respond(201, '');
+    
+    // Get hold of a scope (i.e. the root scope)
+    $rootScope = $injector.get('$rootScope');
+    // The $controller service is used to create instances of controllers
+    var $controller = $injector.get('$controller');
      indexController = function() {
-       return $controller('indexToDoController', {'$scope' : $rootScope });
+        return $controller('indexToDoController', {'$scope' : $rootScope });
      };
    }));
-
 
    afterEach(function() {
      $httpBackend.verifyNoOutstandingExpectation();
@@ -58,5 +56,44 @@ describe('indexToDoController', function() {
      $httpBackend.flush();
      expect($rootScope.status).toBe('');
    });
+    
+   it('should update status when user selects from status listbox', function() {
+     var controller = indexController();
+     $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
+     $rootScope.updateStatus('22', 'start');       
+     expect($rootScope.status).toBe('updating...');
+     $httpBackend.flush();
+     expect($rootScope.status).toBe('');
+   });
    
+   it('should respond with 401 when user passes invalid value from status listbox', function() {
+     updateStatusRequestHandler.respond(401, '');
+     var controller = indexController();     
+     $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
+     $rootScope.updateStatus('22', 'until_finish');       
+     $httpBackend.flush();
+     expect($rootScope.status).toBe('Failed...');     
+   });
+        
+   it('should delete todo when user clicks on delete todo', function() {
+     var controller = indexController();
+     $rootScope.todo = {};
+     $rootScope.todo.is_deleted = false;
+     $rootScope.todo._id = {"$oid": '22'};
+     $httpBackend.expectDELETE("http://localhost:3000/api/to_dos/22");
+     $rootScope.deleteTodo($rootScope.todo);       
+     $httpBackend.flush();
+     expect($rootScope.todo.is_deleted).toBe(true);     
+   });
+    
+   it('should undo delete todo when user clicks on undo delete', function() {
+     var controller = indexController();
+     $rootScope.todo = {};
+     $rootScope.todo.is_deleted = true;
+     $rootScope.todo._id = {"$oid": '22'};
+     $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/is_deleted");
+     $rootScope.deleteTodo($rootScope.todo);       
+     $httpBackend.flush();
+     expect($rootScope.todo.is_deleted).toBe(false);     
+   });    
 });

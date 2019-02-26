@@ -23,9 +23,9 @@
 </select></td>
       <td>{{ todo.tag_id }}</td>
       <td>{{ todo.is_deleted }}</td>      
-      <td><a href="#/edit/{{ todo }}" class="btn btn-primary" title="Edit ToDo"><span class="glyphicon glyphicon-pencil"></span></a></td>
+      <td><a href="#!/edit/{{ todo }}" class="btn btn-primary" title="Edit ToDo"><span class="glyphicon glyphicon-pencil"></span></a></td>
       <td>
-        <a href="#/attach_tag/{{ todo._id.$oid }}" title="Attach Tag">
+        <a href="#!/attach_tag/{{ todo._id.$oid }}" title="Attach Tag">
           <span class="glyphicon glyphicon-tag"></span>
         </a>
       </td>      
