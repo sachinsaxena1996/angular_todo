@@ -60,7 +60,7 @@ describe('indexToDoController', function() {
    it('should update status when user selects from status listbox', function() {
      var controller = indexController();
      $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
-     $rootScope.updateStatus('22', 'start');       
+     $rootScope.updateTodoStatus('22', 'start');       
      expect($rootScope.status).toBe('updating...');
      $httpBackend.flush();
      expect($rootScope.status).toBe('');
@@ -70,7 +70,7 @@ describe('indexToDoController', function() {
      updateStatusRequestHandler.respond(401, '');
      var controller = indexController();     
      $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
-     $rootScope.updateStatus('22', 'until_finish');       
+     $rootScope.updateTodoStatus('22', 'until_finish');       
      $httpBackend.flush();
      expect($rootScope.status).toBe('Failed...');     
    });

@@ -14,7 +14,7 @@ todoApp.controller('indexToDoController', ['$scope', '$http', '$routeParams', fu
        });            
     }    
    $scope.loadTodos();        
-   $scope.updateStatus = function(id, status){
+   $scope.updateTodoStatus = function(id, status){
         $scope.status = 'updating...';
         var url = "http://localhost:3000/api/to_dos/" + id + "/status";
         var data = { "status" : status };

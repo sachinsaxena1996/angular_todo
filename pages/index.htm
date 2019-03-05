@@ -19,7 +19,7 @@
       <th scope="row">{{current + $index}}</th>
       <td>{{ todo.name }}</td>
       <td>{{ todo.description }}</td>
-      <td><select ng-model="todo.status" ng-options="status as status for status in statuses" ng-change="updateStatus(todo._id.$oid, todo.status);">
+      <td><select ng-model="todo.status" ng-options="status as status for status in statuses" ng-change="updateTodoStatus(todo._id.$oid, todo.status);">
 </select></td>
       <td>{{ todo.tag_id }}</td>
       <td>{{ todo.is_deleted }}</td>      
