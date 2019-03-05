@@ -14,14 +14,17 @@ todoApp.controller('indexToDoController', ['$scope', '$http', '$routeParams', fu
        });            
     }    
    $scope.loadTodos();        
-   $scope.updateTodoStatus = function(id, status){
+   $scope.updateTodoStatus = function(todo){
+        var id = todo._id.$oid;
         $scope.status = 'updating...';
         var url = "http://localhost:3000/api/to_dos/" + id + "/status";
-        var data = { "status" : status };
-        console.log(data);
-        $http.put(url, data).then(function(){
+        var data = { "status" : todo.status };
+        $http.put(url, data)
+            .then(function(response){
             alert("status updated successfully for the todo with id: " + id);
+            todo.status = response.data.status;
             $scope.status = '';
+            
         }).catch(function() {
          $scope.status = 'Failed...';
        });

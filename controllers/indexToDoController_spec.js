@@ -12,7 +12,7 @@ describe('indexToDoController', function() {
     $httpBackend.when('DELETE', "http://localhost:3000/api/to_dos/22").respond(201, '');
     $httpBackend.when('PUT', "http://localhost:3000/api/to_dos/22/is_deleted").respond(201, '');
        
-    updateStatusRequestHandler = $httpBackend.when('PUT', 'http://localhost:3000/api/to_dos/22/status').respond(201, '');
+    updateStatusRequestHandler = $httpBackend.when('PUT', 'http://localhost:3000/api/to_dos/22/status').respond(201, {});
     
     // Get hold of a scope (i.e. the root scope)
     $rootScope = $injector.get('$rootScope');
@@ -59,8 +59,15 @@ describe('indexToDoController', function() {
     
    it('should update status when user selects from status listbox', function() {
      var controller = indexController();
+     updateStatusRequestHandler.respond(201, {"name": "ToDO Via 6", "description": "Via", "status": "start",  "is_deleted": true });
      $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
-     $rootScope.updateTodoStatus('22', 'start');       
+     var todo = {"_id": {"$oid": 22},
+                 "name": "ToDO Via 6", 
+                 "description": "Via", 
+                 "status": "start",  
+                 "is_deleted": false
+                }
+     $rootScope.updateTodoStatus(todo);       
      expect($rootScope.status).toBe('updating...');
      $httpBackend.flush();
      expect($rootScope.status).toBe('');
@@ -70,7 +77,13 @@ describe('indexToDoController', function() {
      updateStatusRequestHandler.respond(401, '');
      var controller = indexController();     
      $httpBackend.expectPUT("http://localhost:3000/api/to_dos/22/status");
-     $rootScope.updateTodoStatus('22', 'until_finish');       
+     var todo = {"_id": {"$oid": 22},
+         "name": "ToDO Via 6", 
+         "description": "Via", 
+         "status": "start",  
+         "is_deleted": false
+        }
+     $rootScope.updateTodoStatus(todo);       
      $httpBackend.flush();
      expect($rootScope.status).toBe('Failed...');     
    });
